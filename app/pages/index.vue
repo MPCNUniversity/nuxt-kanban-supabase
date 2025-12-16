@@ -9,16 +9,18 @@ onMounted(async () => {
     return
   }
   try {
-    const { data: { session }, error } = await supabase.auth.getSession()
-    if (error) {
-      connectionStatus.value = `Verbinding ok, maar auth error:
-${error.message}`
+    const res = await supabase.auth.getSession()
+    const session = res?.data?.session ?? null
+    const err = res?.error ?? null
+    if (err) {
+      connectionStatus.value = `Verbinding ok, maar auth error: ${err.message}`
+    } else if (session) {
+      connectionStatus.value = 'Supabase verbinding succesvol. Client is geïnitialiseerd en klaar voor gebruik.'
     } else {
-      connectionStatus.value =
-          'Supabase verbinding succesvol. Client is geïnitialiseerd en klaar voor gebruik.'
+      connectionStatus.value = 'Supabase verbinding ok — geen actieve sessie.'
     }
   } catch (err) {
-    connectionStatus.value = `Fout: ${err.message}`
+    connectionStatus.value = `Fout: ${err?.message ?? err}`
   }
 })
 </script>
