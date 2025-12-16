@@ -4,6 +4,18 @@ export default defineNuxtConfig({
         '@pinia/nuxt',
         '@nuxtjs/tailwindcss'
     ],
+    // Nitro + Vite adjustments for Vercel deployment and ESM dependencies
+    nitro: {
+        preset: 'vercel',
+        externals: {
+            inline: ['@supabase/supabase-js']
+        }
+    },
+    vite: {
+        ssr: {
+            noExternal: ['@supabase/supabase-js']
+        }
+    },
     runtimeConfig: {
         public: {
             supabaseUrl: process.env.NUXT_PUBLIC_SUPABASE_URL,
