@@ -70,4 +70,4 @@ function handleDeleteTask() {
       </button>
     </div>
   </article>
-</template>
+  </template>
